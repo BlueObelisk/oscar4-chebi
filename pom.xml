@@ -9,4 +9,16 @@
   <artifactId>oscar4-chebi</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>oscar4-chebi</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>chemicalTagger</groupId>
+  		<artifactId>chemicalTagger</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>net.htmlparser.jericho</groupId>
+  		<artifactId>jericho-html</artifactId>
+  		<version>3.1</version>
+  	</dependency>
+  </dependencies>
 </project>
