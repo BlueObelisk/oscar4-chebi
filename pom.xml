@@ -2,19 +2,17 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>wwmm-parent</artifactId>
     <groupId>wwmm</groupId>
+    <artifactId>wwmm-parent</artifactId>
     <version>1</version>
   </parent>
 
   <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
   <artifactId>oscar4-chebi</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>4.0-SNAPSHOT</version>
   <name>oscar4-chebi</name>
 
   <properties>
-    <oscar.groupId>${project.groupId}</oscar.groupId>
-    <oscar.version>${project.version}</oscar.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
