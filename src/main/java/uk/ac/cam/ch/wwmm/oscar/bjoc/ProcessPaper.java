@@ -18,7 +18,43 @@ import uk.ac.cam.ch.wwmm.oscar.opsin.OpsinDictionary;
 
 public class ProcessPaper {
 
-	public static String streamAsString(InputStream stream) throws IOException {
+	private Oscar oscar;
+	private String pmcid;
+	
+	public ProcessPaper(String pmcid) throws Exception {
+		this.pmcid = pmcid;
+		this.oscar = new Oscar();
+		oscar.getDictionaryRegistry().register(new OpsinDictionary());
+	}
+
+	public RecoveredChemistry processPaper() throws IOException {
+		RecoveredChemistry chemistry = new RecoveredChemistry(pmcid);
+		String file = "bjoc/" + pmcid + ".html";
+		
+		String text = streamAsString(
+			this.getClass().getClassLoader().getResourceAsStream(
+				file
+			)
+		);
+
+		Source source = new Source(text);
+		text = source.getTextExtractor().toString();
+
+		try {
+			List<NamedEntity> entities = oscar.getNamedEntities(text);
+			chemistry.setNamedEntities(entities);
+			chemistry.setResolvedNamedEntities(oscar.resolveNamedEntities(entities));
+		} catch (Exception e) {
+			// ignore for now
+		}
+		
+		RoleIdentifier roleIdentifier = new RoleIdentifier(text);
+		chemistry.setRoles(roleIdentifier.getRoles());
+
+		return chemistry;
+	}
+
+	public String streamAsString(InputStream stream) throws IOException {
 		StringBuilder builder = new StringBuilder();
 		BufferedReader reader = new BufferedReader(
 			new InputStreamReader(stream)
@@ -32,9 +68,6 @@ public class ProcessPaper {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Oscar oscar = new Oscar();
-		oscar.getDictionaryRegistry().register(new OpsinDictionary());
-
 		BufferedReader reader = new BufferedReader(
 			new InputStreamReader(
 				ProcessPaper.class.getClassLoader().getResourceAsStream(
@@ -48,29 +81,8 @@ public class ProcessPaper {
 		while (line != null && counter < 10) {
 			counter++;
 			String pmcid = line.trim();
-			RecoveredChemistry chemistry = new RecoveredChemistry(pmcid);
-			chemistries.add(chemistry);
-			String file = "bjoc/" + pmcid + ".html";
-			
-			String text = streamAsString(
-				ProcessPaper.class.getClassLoader().getResourceAsStream(
-					file
-				)
-			);
-
-			Source source = new Source(text);
-			text = source.getTextExtractor().toString();
-
-			try {
-				List<NamedEntity> entities = oscar.getNamedEntities(text);
-				chemistry.setNamedEntities(entities);
-				chemistry.setResolvedNamedEntities(oscar.resolveNamedEntities(entities));
-			} catch (Exception e) {
-				// ignore for now
-			}
-			
-			RoleIdentifier roleIdentifier = new RoleIdentifier(text);
-			chemistry.setRoles(roleIdentifier.getRoles());
+			ProcessPaper paperProcessor = new ProcessPaper(pmcid);
+			chemistries.add(paperProcessor.processPaper());
 			line = reader.readLine();
 		};
 		reader.close();
