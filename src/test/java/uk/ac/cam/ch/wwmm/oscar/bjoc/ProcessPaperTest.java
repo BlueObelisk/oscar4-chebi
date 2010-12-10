@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.bjoc;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,6 +22,12 @@ public class ProcessPaperTest {
 		List<NamedEntity> entities = chemistry.getNamedEntities();
 		Assert.assertNotNull(entities);
 		Assert.assertNotSame(0, entities.size());
+		Map<String,String> roles = chemistry.getRoles();
+		Assert.assertNotNull(roles);
+		Assert.assertNotSame(0, roles.keySet().size());
+		// I hope we can enable them later; they fail right now
+		// Assert.assertTrue(roles.containsKey("THF"));
+		// Assert.assertEquals("Solvent", roles.get("THF"));
 	}
 	
 }
