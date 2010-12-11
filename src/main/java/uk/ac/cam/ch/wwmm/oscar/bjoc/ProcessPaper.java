@@ -10,17 +10,18 @@ import net.htmlparser.jericho.Source;
 import uk.ac.cam.ch.wwmm.chemicaltagger.RoleIdentifier;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
-import uk.ac.cam.ch.wwmm.oscar.opsin.OpsinDictionary;
 
 public class ProcessPaper {
 
 	private Oscar oscar;
+	private RoleIdentifier roleIdentifier;
 	private String pmcid;
 	
-	public ProcessPaper(String pmcid) throws Exception {
+	public ProcessPaper(String pmcid, Oscar oscar, RoleIdentifier roleIdentifier)
+	throws Exception {
 		this.pmcid = pmcid;
-		this.oscar = new Oscar();
-		oscar.getDictionaryRegistry().register(new OpsinDictionary());
+		this.oscar = oscar;
+		this.roleIdentifier = roleIdentifier;
 	}
 
 	public RecoveredChemistry processPaper() throws IOException {
@@ -44,7 +45,6 @@ public class ProcessPaper {
 			// ignore for now
 		}
 		
-		RoleIdentifier roleIdentifier = new RoleIdentifier();
 		roleIdentifier.setText(text);
 		chemistry.setRoles(roleIdentifier.getRoles());
 
