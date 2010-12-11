@@ -6,6 +6,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.chemicaltagger.RoleIdentifier;
+import uk.ac.cam.ch.wwmm.oscar.Oscar;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 
 public class ProcessPaperTest {
@@ -16,7 +18,11 @@ public class ProcessPaperTest {
 	 */
 	@Test
 	public void testPMCID1399459() throws Exception {
-		ProcessPaper paperProcessor = new ProcessPaper("1399459");
+		ProcessPaper paperProcessor = new ProcessPaper(
+			"1399459",
+			new Oscar(),
+			new RoleIdentifier()
+		);
 		RecoveredChemistry chemistry = paperProcessor.processPaper();
 		Assert.assertNotNull(chemistry);
 		List<NamedEntity> entities = chemistry.getNamedEntities();
