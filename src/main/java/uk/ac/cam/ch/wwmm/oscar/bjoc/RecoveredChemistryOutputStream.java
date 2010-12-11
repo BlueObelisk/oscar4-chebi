@@ -50,12 +50,13 @@ public class RecoveredChemistryOutputStream {
 
 		// output chemical entities
 		tableCounter++;
-		out.println("<table rel=\"oscar:lists\" id=\"table" + tableCounter
-				+ "\" class=\"tablesorter\">");
-		out.println("<thead>");
-		out.println("<tr><th>Compound</th><th>Confidence</th><th>InChI</th></tr>");
-		out.println("</thead>");
-		out.println("<tbody>");
+		StringBuilder builder = new StringBuilder();
+		builder.append("<table rel=\"oscar:lists\" id=\"table" + tableCounter
+				+ "\" class=\"tablesorter\">").append("\n");
+		builder.append("<thead>").append("\n");
+		builder.append("<tr><th>Compound</th><th>Confidence</th><th>InChI</th></tr>").append("\n");
+		builder.append("</thead>").append("\n");
+		builder.append("<tbody>").append("\n");
 		List<String> alreadyDone = new ArrayList<String>();
 		Map<NamedEntity, String> resolvedEntities = chemistry
 				.getResolvedNamedEntities();
@@ -65,25 +66,29 @@ public class RecoveredChemistryOutputStream {
 			if (!alreadyDone.contains(entity.getSurface())) {
 				if (resolvedEntities.containsKey(entity)
 						|| entity.getConfidence() > 0.5) {
-					out.println(" <tr typeof=\"cheminf:CHEMINF_000000\">");
-					out.print("  <td>" + entity.getSurface() + "</td>");
-					out.print("  <td>" + round(entity.getConfidence())
-							+ "</td>");
+					builder.append(" <tr typeof=\"cheminf:CHEMINF_000000\">").append("\n");
+					builder.append("  <td>" + entity.getSurface() + "</td>").append("\n");
+					builder.append("  <td>" + round(entity.getConfidence())
+							+ "</td>").append("\n");
 					if (resolvedEntities.containsKey(entity)) {
-						out.println("  <td>" + resolvedEntities.get(entity)
-								+ "</td>");
+						builder.append("  <td>" + resolvedEntities.get(entity)
+								+ "</td>").append("\n");
 						structureCount++;
 					} else {
-						out.println(" <td />");
+						builder.append(" <td />").append("\n");
 					}
 					alreadyDone.add(entity.getSurface());
 					entityCount++;
-					out.println(" </tr>");
+					builder.append(" </tr>").append("\n");
 				}
 			}
 		}
-		out.println("</tbody>");
-		out.println("</table>");
+		builder.append("</tbody>").append("\n");
+		builder.append("</table>").append("\n");
+		if (entityCount > 0) {
+			// only print tables with content
+			out.println(builder.toString());
+		}
 
 		// output roles
 		Map<String, List<String>> roles = chemistry.getRoles();
