@@ -3,8 +3,6 @@ package uk.ac.cam.ch.wwmm.oscar.bjoc;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AnalyzeBJOCPapers {
 
@@ -16,24 +14,26 @@ public class AnalyzeBJOCPapers {
 				)
 			)
 		);
-		String line = reader.readLine();
-		int counter = 0;
-		List<RecoveredChemistry> chemistries = new ArrayList<RecoveredChemistry>();
-		while (line != null && counter < 7) {
-			counter++;
-			String pmcid = line.trim();
-			ProcessPaper paperProcessor = new ProcessPaper(pmcid);
-			chemistries.add(paperProcessor.processPaper());
-			line = reader.readLine();
-		};
-		reader.close();
-
 		RecoveredChemistryOutputStream out = new RecoveredChemistryOutputStream(
 			new FileOutputStream("/home/egonw/bjoc.html")
 		);
-		for (RecoveredChemistry chemistry : chemistries) {
+		RolesOutputStream roles = new RolesOutputStream(
+			new FileOutputStream("/home/egonw/roles.html")
+		);
+
+		String line = reader.readLine();
+		int counter = 0;
+		while (line != null && counter < 15) {
+			counter++;
+			String pmcid = line.trim();
+			ProcessPaper paperProcessor = new ProcessPaper(pmcid);
+			RecoveredChemistry chemistry = paperProcessor.processPaper();
 			out.write(chemistry);
-		}
+			roles.write(chemistry);
+			line = reader.readLine();
+		};
+		reader.close();
+		roles.close();
 		out.close();
 	}
 	
