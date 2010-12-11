@@ -19,7 +19,7 @@ public class AnalyzeBJOCPapers {
 		String line = reader.readLine();
 		int counter = 0;
 		List<RecoveredChemistry> chemistries = new ArrayList<RecoveredChemistry>();
-		while (line != null && counter < 10) {
+		while (line != null && counter < 7) {
 			counter++;
 			String pmcid = line.trim();
 			ProcessPaper paperProcessor = new ProcessPaper(pmcid);
@@ -29,7 +29,7 @@ public class AnalyzeBJOCPapers {
 		reader.close();
 
 		RecoveredChemistryOutputStream out = new RecoveredChemistryOutputStream(
-			new FileOutputStream("/home/egonw/bjoc.txt")
+			new FileOutputStream("/home/egonw/bjoc.html")
 		);
 		for (RecoveredChemistry chemistry : chemistries) {
 			out.write(chemistry);
