@@ -47,30 +47,33 @@ public class RolesOutputStream {
 
 		// output chemical entities
 		tableCounter++;
-		out.println("<table rel=\"oscar:lists\" id=\"table" + tableCounter
-				+ "\" class=\"tablesorter\">");
-		out.println("<thead>");
-		out.println("<tr><th>Compound</th><th>Role</th></tr>");
-		out.println("</thead>");
-		out.println("<tbody>");
+		StringBuilder builder = new StringBuilder();
+		builder.append("<table rel=\"oscar:lists\" id=\"table" + tableCounter
+				+ "\" class=\"tablesorter\">").append("\n");
+		builder.append("<thead>").append("\n");
+		builder.append("<tr><th>Compound</th><th>Role</th></tr>").append("\n");
+		builder.append("</thead>").append("\n");
+		builder.append("<tbody>").append("\n");
 		Map<String, List<String>> roles = chemistry.getRoles();
+		int roleCount = 0;
 		for (String compound : roles.keySet()) {
-			/*****************
-			 * @lh359
-			 */
 			List<String> roleList = roles.get(compound);
 			for (String chemicalRole : roleList) {
-
 				if (!("None".equals(chemicalRole))) {
-					out.println("<tr>");
-					out.println("<td>" + compound.trim() + "</td>");
-					out.println("<td>" + chemicalRole + "</td>");
-					out.println("</tr>");
+					roleCount++;
+					builder.append("<tr>").append("\n");
+					builder.append("<td>" + compound.trim() + "</td>").append("\n");
+					builder.append("<td>" + chemicalRole + "</td>").append("\n");
+					builder.append("</tr>").append("\n");
 				}
 			}
 		}
-		out.println("</tbody>");
-		out.println("</table>");
+		builder.append("</tbody>").append("\n");
+		builder.append("</table>").append("\n");
+		if (roleCount > 0) {
+			// only print tables with content
+			out.println(builder.toString());
+		}
 
 		// output roles
 		out.println("</div>");
