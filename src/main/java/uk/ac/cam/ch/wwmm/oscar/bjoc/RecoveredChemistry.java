@@ -10,7 +10,7 @@ import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 public class RecoveredChemistry {
 
 	private String pmcid;
-	private HashMap<String, String> roles;
+	private HashMap<String, List<String>> roles;
 	private List<NamedEntity> entities;
 	private Map<NamedEntity, String> resolvedEntities;
 
@@ -26,11 +26,11 @@ public class RecoveredChemistry {
 		this.resolvedEntities = resolvedEntities;
 	}
 
-	public void setRoles(HashMap<String,String> roles) {
+	public void setRoles(HashMap<String,List<String>> roles) {
 		this.roles = roles;
 	}
 
-	public Map<String,String> getRoles() {
+	public Map<String,List<String>> getRoles() {
 		return Collections.unmodifiableMap(this.roles);
 	}
 
