@@ -3,6 +3,8 @@ package uk.ac.cam.ch.wwmm.oscar.bjoc;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import uk.ac.cam.ch.wwmm.chemicaltagger.RoleIdentifier;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
@@ -10,7 +12,12 @@ import uk.ac.cam.ch.wwmm.oscar.opsin.OpsinDictionary;
 
 public class AnalyzeBJOCPapers {
 
+	@SuppressWarnings("serial")
 	public static void main(String[] args) throws Exception {
+		List<String> blacklist = new ArrayList<String>() {{
+			add("2874414");
+		}};
+		
 		BufferedReader reader = new BufferedReader(
 			new InputStreamReader(
 				ProcessPaper.class.getClassLoader().getResourceAsStream(
@@ -32,12 +39,16 @@ public class AnalyzeBJOCPapers {
 		int counter = 0;
 		while (line != null) {
 			counter++;
-			System.out.println("Paper: " + counter);
 			String pmcid = line.trim();
-			ProcessPaper paperProcessor = new ProcessPaper(pmcid, oscar, roleIdentifier);
-			RecoveredChemistry chemistry = paperProcessor.processPaper();
-			out.write(chemistry);
-			roles.write(chemistry);
+			System.out.println("Paper: " + counter + "(" + pmcid + ")");
+			if (!blacklist.contains(pmcid)) {
+				ProcessPaper paperProcessor = new ProcessPaper(pmcid, oscar, roleIdentifier);
+				RecoveredChemistry chemistry = paperProcessor.processPaper();
+				out.write(chemistry);
+				roles.write(chemistry);
+			} else {
+				System.out.println(" Blacklisted.");
+			}
 			line = reader.readLine();
 		};
 		reader.close();
