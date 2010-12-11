@@ -44,7 +44,8 @@ public class ProcessPaper {
 			// ignore for now
 		}
 		
-		RoleIdentifier roleIdentifier = new RoleIdentifier(text);
+		RoleIdentifier roleIdentifier = new RoleIdentifier();
+		roleIdentifier.setText(text);
 		chemistry.setRoles(roleIdentifier.getRoles());
 
 		return chemistry;

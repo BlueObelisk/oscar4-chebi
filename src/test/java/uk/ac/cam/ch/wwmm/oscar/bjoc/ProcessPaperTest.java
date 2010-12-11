@@ -22,7 +22,7 @@ public class ProcessPaperTest {
 		List<NamedEntity> entities = chemistry.getNamedEntities();
 		Assert.assertNotNull(entities);
 		Assert.assertNotSame(0, entities.size());
-		Map<String,String> roles = chemistry.getRoles();
+		Map<String,List<String>> roles = chemistry.getRoles();
 		Assert.assertNotNull(roles);
 		Assert.assertNotSame(0, roles.keySet().size());
 		// I hope we can enable them later; they fail right now
