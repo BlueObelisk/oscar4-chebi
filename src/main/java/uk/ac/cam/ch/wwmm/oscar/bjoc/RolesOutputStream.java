@@ -28,7 +28,8 @@ public class RolesOutputStream {
 		out.println("      xmlns:foaf=\"http://xmlns.com/foaf/0.1/\"");
 		out.println("      xmlns:cheminf=\"http://semanticscience.org/resource/\" xml:lang=\"en\">");
 		out.println("<head>");
-		out.println("<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\" media=\"print, projection, screen\" />");
+		out.println("  <title>Results</title>");
+		out.println("  <link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\" media=\"print, projection, screen\" />");
 		out.println("  <script type=\"text/javascript\" src=\"./jquery-latest.js\"></script>");
 		out.println("  <script type=\"text/javascript\" src=\"./jquery.tablesorter.js\"></script>");
 		out.println("</head>");
