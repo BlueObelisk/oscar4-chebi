@@ -13,9 +13,15 @@ public class RecoveredChemistry {
 	private HashMap<String, List<String>> roles;
 	private List<NamedEntity> entities;
 	private Map<NamedEntity, String> resolvedEntities;
+	private int sentenceCount;
+	private int prepPhraseCount;
+	private int dissolvePhraseCount;
 
 	public RecoveredChemistry(String pmcid) {
 		this.pmcid = pmcid;
+		this.sentenceCount = 0;
+		this.prepPhraseCount = 0;
+		this.dissolvePhraseCount = 0;
 	}
 
 	public void setNamedEntities(List<NamedEntity> entities) {
@@ -44,5 +50,29 @@ public class RecoveredChemistry {
 
 	public String getPmcid() {
 		return pmcid;
+	}
+
+	public void setSentenceCount(int sentenceCount) {
+		this.sentenceCount = sentenceCount;
+	}
+
+	public int getSentenceCount() {
+		return sentenceCount;
+	}
+
+	public void setPrepPhraseCount(int prepPhraseCount) {
+		this.prepPhraseCount = prepPhraseCount;
+	}
+
+	public int getPrepPhraseCount() {
+		return prepPhraseCount;
+	}
+
+	public void setDissolvePhraseCount(int dissolvePhraseCount) {
+		this.dissolvePhraseCount = dissolvePhraseCount;
+	}
+
+	public int getDissolvePhraseCount() {
+		return dissolvePhraseCount;
 	}
 }
