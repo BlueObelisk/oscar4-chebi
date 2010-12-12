@@ -1,4 +1,12 @@
 Source code for the Oscar4/ChEBI use case.
+==========================================
+
+
+Copyright
+---------
+
+This code is written by Egon Willighagen with patches from Lezan H, and is licensed Artistic License 2.0, 
+see LICENSE.txt.
 
 BJOC papers are license Creative Commons Attribution License (http://creativecommons.org/licenses/by/2.0),
 and copyright is with the authors of the paper:
@@ -8,3 +16,15 @@ http://www.beilstein-journals.org/bjoc/
 The JQuery libraries for the table output are dual-licensed MIT/GPL:
 
 http://tablesorter.com/
+
+
+Install & Run
+-------------
+
+Compile:
+
+> mvn assembly:assembly
+
+Run:
+
+> java -cp target/oscar4-chebi-4.0-SNAPSHOT-jar-with-dependencies.jar uk.ac.cam.ch.wwmm.oscar.bjoc.AnalyzeBJOCPapers
