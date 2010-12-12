@@ -16,7 +16,8 @@ public class AnalyzeBJOCPapers {
 	@SuppressWarnings("serial")
 	public static void main(String[] args) throws Exception {
 		List<String> blacklist = new ArrayList<String>() {{
-			add("2874414");
+			add("2874414"); // too large; gives OutOfMemoryException
+			add("2244621"); // causes a org.antlr.runtime.tree.RewriteCardinalityException
 		}};
 		
 		BufferedReader reader = new BufferedReader(
