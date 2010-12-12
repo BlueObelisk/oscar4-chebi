@@ -6,6 +6,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
+import uk.ac.cam.ch.wwmm.chemicaltagger.ParsedDocumentCreator;
 import uk.ac.cam.ch.wwmm.chemicaltagger.RoleIdentifier;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
@@ -21,6 +22,7 @@ public class ProcessPaperTest {
 		ProcessPaper paperProcessor = new ProcessPaper(
 			"1399459",
 			new Oscar(),
+			new ParsedDocumentCreator(),
 			new RoleIdentifier()
 		);
 		RecoveredChemistry chemistry = paperProcessor.processPaper();

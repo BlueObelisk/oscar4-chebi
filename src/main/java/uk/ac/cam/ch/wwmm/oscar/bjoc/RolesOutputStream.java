@@ -76,7 +76,13 @@ public class RolesOutputStream {
 			out.println(builder.toString());
 		}
 
-		// output roles
+		// output sentence stats
+		out.println("<p>");
+		out.println("Number of sentences: " + chemistry.getSentenceCount() + "<br />");
+		out.println("Number of preparation phrases: " + chemistry.getPrepPhraseCount() + "<br />");
+		out.println("Number of dissolve phrases: " + chemistry.getDissolvePhraseCount() + "<br />");
+		out.println("</p>");
+
 		out.println("</div>");
 		out.flush();
 	}
