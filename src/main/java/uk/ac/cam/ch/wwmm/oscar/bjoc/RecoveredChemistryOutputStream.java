@@ -29,9 +29,11 @@ public class RecoveredChemistryOutputStream {
 		out.println("      xmlns:oscar=\"http://oscar3-chem.sf.net/ontology/\"");
 		out.println("      xmlns:dc=\"http://purl.org/dc/terms/\"");
 		out.println("      xmlns:foaf=\"http://xmlns.com/foaf/0.1/\"");
+		out.println("      xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"");
 		out.println("      xmlns:cheminf=\"http://semanticscience.org/resource/\" xml:lang=\"en\">");
 		out.println("<head>");
-		out.println("<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\" media=\"print, projection, screen\" />");
+		out.println("  <title>Results</title>");
+		out.println("  <link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\" media=\"print, projection, screen\" />");
 		out.println("  <script type=\"text/javascript\" src=\"./jquery-latest.js\"></script>");
 		out.println("  <script type=\"text/javascript\" src=\"./jquery.tablesorter.js\"></script>");
 		out.println("</head>");
@@ -41,22 +43,24 @@ public class RecoveredChemistryOutputStream {
 	}
 
 	public void write(RecoveredChemistry chemistry) {
-		out.println("<div><p resource=\"#" + chemistry.getPmcid()
+		String pmcid = chemistry.getPmcid();
+		out.println("<div><p resource=\"#" + pmcid
 				+ "\" typeof=\"bibo:Article\">Paper: <a rel=\"foaf:homepage\" "
 				+ "property=\"dc:identifier\" "
 				+ "href=\"http://www.ncbi.nlm.nih.gov/sites/ppmc/articles/"
-				+ "PMC" + chemistry.getPmcid() + "\">PCM"
-				+ chemistry.getPmcid() + "</a></p>");
+				+ "PMC" + pmcid + "\">PCM"
+				+ pmcid + "</a></p>");
 
 		// output chemical entities
 		tableCounter++;
 		StringBuilder builder = new StringBuilder();
-		builder.append("<table rel=\"oscar:lists\" id=\"table" + tableCounter
+		builder.append("<table resource=\"#" + chemistry.getPmcid()
+				+ "\" id=\"table" + tableCounter
 				+ "\" class=\"tablesorter\">").append("\n");
 		builder.append("<thead>").append("\n");
 		builder.append("<tr><th>Compound</th><th>Confidence</th><th>InChI</th></tr>").append("\n");
 		builder.append("</thead>").append("\n");
-		builder.append("<tbody>").append("\n");
+		builder.append("<tbody rel=\"oscar:lists\">").append("\n");
 		List<String> alreadyDone = new ArrayList<String>();
 		Map<NamedEntity, String> resolvedEntities = chemistry
 				.getResolvedNamedEntities();
@@ -66,13 +70,21 @@ public class RecoveredChemistryOutputStream {
 			if (!alreadyDone.contains(entity.getSurface())) {
 				if (resolvedEntities.containsKey(entity)
 						|| entity.getConfidence() > 0.5) {
-					builder.append(" <tr typeof=\"cheminf:CHEMINF_000000\">").append("\n");
-					builder.append("  <td>" + entity.getSurface() + "</td>").append("\n");
+					builder.append(
+						" <tr resource=\"#mol" + pmcid + "_" + entityCount + "\"" +
+						" typeof=\"cheminf:CHEMINF_000000\">"
+					).append("\n");
+					builder.append("  <td property=\"rdfs:label\">" + entity.getSurface() + "</td>").append("\n");
 					builder.append("  <td>" + round(entity.getConfidence())
 							+ "</td>").append("\n");
 					if (resolvedEntities.containsKey(entity)) {
-						builder.append("  <td>" + resolvedEntities.get(entity)
-								+ "</td>").append("\n");
+						builder.append(
+							"  <td rel=\"cheminf:CHEMINF_000200\">" +
+							"<span resource=\"#mol" + pmcid + "_" + entityCount + "_inchi\"" +
+							"      typeof=\"cheminf:CHEMINF_000113\"" +
+							"      property=\"cheminf:SIO_000300\">" +
+							resolvedEntities.get(entity)
+							+ "</span></td>").append("\n");
 						structureCount++;
 					} else {
 						builder.append(" <td />").append("\n");
