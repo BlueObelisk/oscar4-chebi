@@ -8,9 +8,9 @@ import java.util.List;
 
 import net.htmlparser.jericho.Source;
 import nu.xom.Document;
-import uk.ac.cam.ch.wwmm.chemicaltagger.ParsedDocumentCreator;
-import uk.ac.cam.ch.wwmm.chemicaltagger.ParsedDocumentStatistics;
-import uk.ac.cam.ch.wwmm.chemicaltagger.RoleIdentifier;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.ParsedDocumentCreator;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.ParsedDocumentStatistics;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.RoleIdentifier;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 

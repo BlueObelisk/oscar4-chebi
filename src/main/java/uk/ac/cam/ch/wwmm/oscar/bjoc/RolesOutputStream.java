@@ -3,8 +3,11 @@ package uk.ac.cam.ch.wwmm.oscar.bjoc;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.NamedEntityWithRoles;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.Role;
 
 public class RolesOutputStream {
 
@@ -52,19 +55,20 @@ public class RolesOutputStream {
 		builder.append("<table rel=\"oscar:lists\" id=\"table" + tableCounter
 				+ "\" class=\"tablesorter\">").append("\n");
 		builder.append("<thead>").append("\n");
-		builder.append("<tr><th>Compound</th><th>Role</th></tr>").append("\n");
+		builder.append("<tr><th>Compound</th><th>Role</th><th>Sentence</th></tr>").append("\n");
 		builder.append("</thead>").append("\n");
 		builder.append("<tbody>").append("\n");
-		Map<String, List<String>> roles = chemistry.getRoles();
+		Collection<NamedEntityWithRoles> roles = chemistry.getRoles();
 		int roleCount = 0;
-		for (String compound : roles.keySet()) {
-			List<String> roleList = roles.get(compound);
-			for (String chemicalRole : roleList) {
-				if (!("None".equals(chemicalRole))) {
+		for (NamedEntityWithRoles compound : roles) {
+			List<Role> roleList = compound.getRoles();
+			for (Role chemicalRole : roleList) {
+				if (!("None".equals(chemicalRole.getRole()))) {
 					roleCount++;
 					builder.append("<tr>").append("\n");
-					builder.append("<td>" + compound.trim() + "</td>").append("\n");
-					builder.append("<td>" + chemicalRole + "</td>").append("\n");
+					builder.append("<td>" + compound.getNamedEntity() + "</td>").append("\n");
+					builder.append("<td>" + chemicalRole.getRole() + "</td>").append("\n");
+					builder.append("<td>" + chemicalRole.getSentence() + "</td>").append("\n");
 					builder.append("</tr>").append("\n");
 				}
 			}

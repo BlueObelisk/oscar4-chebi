@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.ac.cam.ch.wwmm.chemicaltagger.ParsedDocumentCreator;
-import uk.ac.cam.ch.wwmm.chemicaltagger.RoleIdentifier;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.ParsedDocumentCreator;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.RoleIdentifier;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
 import uk.ac.cam.ch.wwmm.oscar.opsin.OpsinDictionary;
 
@@ -40,7 +40,7 @@ public class AnalyzeBJOCPapers {
 		RoleIdentifier roleIdentifier = new RoleIdentifier();
 		String line = reader.readLine();
 		int counter = 0;
-		while (line != null) {
+		while (line != null && counter < 30) {
 			counter++;
 			String pmcid = line.trim();
 			System.out.println("Paper: " + counter + " (" + pmcid + ")");
