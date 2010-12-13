@@ -1,13 +1,14 @@
 package uk.ac.cam.ch.wwmm.oscar.bjoc;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import uk.ac.cam.ch.wwmm.chemicaltagger.ParsedDocumentCreator;
-import uk.ac.cam.ch.wwmm.chemicaltagger.RoleIdentifier;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.NamedEntityWithRoles;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.ParsedDocumentCreator;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.RoleIdentifier;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 
@@ -30,9 +31,9 @@ public class ProcessPaperTest {
 		List<NamedEntity> entities = chemistry.getNamedEntities();
 		Assert.assertNotNull(entities);
 		Assert.assertNotSame(0, entities.size());
-		Map<String,List<String>> roles = chemistry.getRoles();
+		Collection<NamedEntityWithRoles> roles = chemistry.getRoles();
 		Assert.assertNotNull(roles);
-		Assert.assertNotSame(0, roles.keySet().size());
+		Assert.assertNotSame(0, roles.size());
 		// I hope we can enable them later; they fail right now
 		// Assert.assertTrue(roles.containsKey("THF"));
 		// Assert.assertEquals("Solvent", roles.get("THF"));

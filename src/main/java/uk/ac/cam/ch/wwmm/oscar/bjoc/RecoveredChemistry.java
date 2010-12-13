@@ -1,16 +1,17 @@
 package uk.ac.cam.ch.wwmm.oscar.bjoc;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.NamedEntityWithRoles;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 
 public class RecoveredChemistry {
 
 	private String pmcid;
-	private HashMap<String, List<String>> roles;
+	private Collection<NamedEntityWithRoles> roles;
 	private List<NamedEntity> entities;
 	private Map<NamedEntity, String> resolvedEntities;
 	private int sentenceCount;
@@ -32,12 +33,12 @@ public class RecoveredChemistry {
 		this.resolvedEntities = resolvedEntities;
 	}
 
-	public void setRoles(HashMap<String,List<String>> roles) {
+	public void setRoles(Collection<NamedEntityWithRoles> roles) {
 		this.roles = roles;
 	}
 
-	public Map<String,List<String>> getRoles() {
-		return Collections.unmodifiableMap(this.roles);
+	public Collection<NamedEntityWithRoles> getRoles() {
+		return Collections.unmodifiableCollection(this.roles);
 	}
 
 	public List<NamedEntity> getNamedEntities() {

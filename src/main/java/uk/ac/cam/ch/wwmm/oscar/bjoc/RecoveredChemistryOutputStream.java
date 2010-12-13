@@ -102,20 +102,6 @@ public class RecoveredChemistryOutputStream {
 			out.println(builder.toString());
 		}
 
-		// output roles
-		Map<String, List<String>> roles = chemistry.getRoles();
-		for (String compound : roles.keySet()) {
-			/*****************
-			 * @lh359
-			 */
-			List<String> roleList = roles.get(compound);
-			for (String chemicalRole : roleList) {
-
-				if (!("None".equals(chemicalRole))) {
-					out.println(compound.trim() + ": " + chemicalRole);
-				}
-			}
-		}
 		out.println("</div>");
 		out.flush();
 	}
