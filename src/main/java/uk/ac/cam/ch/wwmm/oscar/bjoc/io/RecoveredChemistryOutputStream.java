@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.bjoc;
+package uk.ac.cam.ch.wwmm.oscar.bjoc.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import uk.ac.cam.ch.wwmm.oscar.bjoc.RecoveredChemistry;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 
 public class RecoveredChemistryOutputStream {
