@@ -45,15 +45,17 @@ public class ProcessPaper {
 				file
 			)
 		);
+//		System.out.println(text);
 		Document doc = builder.build(
 			new StringReader(text)
 		);
 		
-		Nodes nodes = doc.query("//div[@class='section-content']");
+		Nodes nodes = doc.query("//*[local-name()='div']/.[@class='section-content']");
 		for (int i=0; i<nodes.size(); i++) {
 			Node node = nodes.get(i);
-			String textPart = node.getValue();
-			processText(chemistry, textPart);
+			String textPart = node.getValue().trim();
+			if (textPart.length() > 0)
+				processText(chemistry, textPart);
 		}
 
 		return chemistry;
@@ -68,6 +70,7 @@ public class ProcessPaper {
 			// ignore for now
 		}
 		
+		chemistry.newSection();
 		Document parsedDoc = docCreator.runChemicalTagger(text);
 		chemistry.addRoles(roleIdentifier.getRoles(parsedDoc));
 		chemistry.setSentenceCount(ParsedDocumentStatistics.getSentenceCount(parsedDoc));
@@ -83,8 +86,12 @@ public class ProcessPaper {
 		String line;
 		while ((line = reader.readLine()) != null) {
 			// remove the DOCTYPE line
-			if (line.contains("DOCTYPE")) continue;
-			builder.append(line);
+			if (line.contains("DOCTYPE")) {
+				while (!line.contains(">"))
+					line = reader.readLine();
+				line = reader.readLine();
+			}
+			builder.append(line).append("\n");
 		}
 		stream.close();
 		return builder.toString();
