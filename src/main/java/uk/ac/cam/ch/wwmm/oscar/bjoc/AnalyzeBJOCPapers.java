@@ -19,10 +19,9 @@ public class AnalyzeBJOCPapers {
 	@SuppressWarnings("serial")
 	public static void main(String[] args) throws Exception {
 		List<String> blacklist = new ArrayList<String>() {{
-			add("2874414"); // too large; gives OutOfMemoryException
-			add("2244621"); // causes a org.antlr.runtime.tree.RewriteCardinalityException
+			add("2956469"); // hangs
 		}};
-		
+
 		BufferedReader reader = new BufferedReader(
 			new InputStreamReader(
 				ProcessPaper.class.getClassLoader().getResourceAsStream(
@@ -53,7 +52,7 @@ public class AnalyzeBJOCPapers {
 		RoleIdentifier roleIdentifier = new RoleIdentifier();
 		String line = reader.readLine();
 		int counter = 0;
-		while (line != null && counter < 30) {
+		while (line != null) {
 			counter++;
 			String pmcid = line.trim();
 			System.out.println("Paper: " + counter + " (" + pmcid + ")");
