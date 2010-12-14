@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.List;
 
-import net.htmlparser.jericho.Source;
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Node;
@@ -40,26 +40,26 @@ public class ProcessPaper {
 		RecoveredChemistry chemistry = new RecoveredChemistry(pmcid);
 		String file = "bjoc/" + pmcid + ".html";
 
-		Document doc = builder.build(
+		String text = streamAsString(
 			this.getClass().getClassLoader().getResourceAsStream(
 				file
 			)
+		);
+		Document doc = builder.build(
+			new StringReader(text)
 		);
 		
 		Nodes nodes = doc.query("//div[@class='section-content']");
 		for (int i=0; i<nodes.size(); i++) {
 			Node node = nodes.get(i);
-			String text = node.getValue();
-			processText(chemistry, text);
+			String textPart = node.getValue();
+			processText(chemistry, textPart);
 		}
 
 		return chemistry;
 	}
 
 	private void processText(RecoveredChemistry chemistry, String text) {
-		Source source = new Source(text);
-		text = source.getTextExtractor().toString();
-
 		try {
 			List<NamedEntity> entities = oscar.getNamedEntities(text);
 			chemistry.addNamedEntities(entities);
@@ -82,6 +82,8 @@ public class ProcessPaper {
 		);
 		String line;
 		while ((line = reader.readLine()) != null) {
+			// remove the DOCTYPE line
+			if (line.contains("DOCTYPE")) continue;
 			builder.append(line);
 		}
 		stream.close();
