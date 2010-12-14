@@ -10,6 +10,8 @@ import java.util.List;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.ParsedDocumentCreator;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.RoleIdentifier;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
+import uk.ac.cam.ch.wwmm.oscar.bjoc.io.RecoveredChemistryOutputStream;
+import uk.ac.cam.ch.wwmm.oscar.bjoc.io.RolesOutputStream;
 import uk.ac.cam.ch.wwmm.oscar.opsin.OpsinDictionary;
 
 public class AnalyzeBJOCPapers {

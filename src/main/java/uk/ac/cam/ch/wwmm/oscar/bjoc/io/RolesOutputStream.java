@@ -1,4 +1,4 @@
-package uk.ac.cam.ch.wwmm.oscar.bjoc;
+package uk.ac.cam.ch.wwmm.oscar.bjoc.io;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -8,6 +8,7 @@ import java.util.List;
 
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.NamedEntityWithRoles;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.Role;
+import uk.ac.cam.ch.wwmm.oscar.bjoc.RecoveredChemistry;
 
 public class RolesOutputStream {
 
