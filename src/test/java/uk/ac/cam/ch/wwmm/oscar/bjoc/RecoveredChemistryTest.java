@@ -52,4 +52,6 @@ public class RecoveredChemistryTest {
 		RecoveredChemistry chemistry = new RecoveredChemistry("1");
 		Assert.assertNotNull(chemistry.getResolvedNamedEntities());
 	}
+	
+	
 }

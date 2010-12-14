@@ -3,29 +3,33 @@ package uk.ac.cam.ch.wwmm.oscar.bjoc;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.NamedEntityWithRoles;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.ParsedDocumentCreator;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.Role;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.RoleIdentifier;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.RoleIdentifierTest;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 
 public class ProcessPaperTest {
 
 	/**
-	 * BJOC paper DOI:<a href="http://dx.doi.org/10.1186/1860-5397-1-11.">10.1186/1860-5397-1-11</a>.
-	 * @throws Exception 
+	 * BJOC paper DOI:<a
+	 * href="http://dx.doi.org/10.1186/1860-5397-1-11.">10.1186
+	 * /1860-5397-1-11</a>.
+	 * 
+	 * @throws Exception
 	 */
+	private static Logger LOG = Logger.getLogger(ProcessPaperTest.class);
+
 	@Test
 	public void testPMCID1399459() throws Exception {
-		ProcessPaper paperProcessor = new ProcessPaper(
-			"1399459",
-			new Oscar(),
-			new ParsedDocumentCreator(),
-			new RoleIdentifier()
-		);
+		ProcessPaper paperProcessor = new ProcessPaper("1399459", new Oscar(),
+				new ParsedDocumentCreator(), new RoleIdentifier());
 		RecoveredChemistry chemistry = paperProcessor.processPaper();
 		Assert.assertNotNull(chemistry);
 		List<NamedEntity> entities = chemistry.getNamedEntities();
@@ -38,5 +42,41 @@ public class ProcessPaperTest {
 		// Assert.assertTrue(roles.containsKey("THF"));
 		// Assert.assertEquals("Solvent", roles.get("THF"));
 	}
-	
+
+	@Test
+	public void testForDuplicateNEs() throws Exception {
+		RecoveredChemistry chemistry = new RecoveredChemistry("1");
+		ProcessPaper paperProcessor = new ProcessPaper("1", new Oscar(),
+				new ParsedDocumentCreator(), new RoleIdentifier());
+		String sentence = "Figure 1 Concentration-dependent 1H NMR spectra of R-3 in chloroform ( CDCl3 )";
+		paperProcessor.processText(chemistry, sentence);
+		Collection<NamedEntityWithRoles> identifiedRoles = chemistry.getRoles();
+		int solventCount = getSolventCount(identifiedRoles);
+		printOutRoles(identifiedRoles);
+		Assert.assertEquals("Solvent Count", 1, solventCount);
+	}
+	private void printOutRoles(Collection<NamedEntityWithRoles> identifiedRoles) {
+		
+        for (NamedEntityWithRoles namedEntityWithRoles : identifiedRoles) {
+			LOG.debug("NamedEntity: "+namedEntityWithRoles.getNamedEntity());
+			for (Role roleName : namedEntityWithRoles.getRoles()) {
+				LOG.debug("Role: "+roleName.getRole());
+			}
+			
+		}
+		
+	}
+
+	private int getSolventCount(Collection<NamedEntityWithRoles> identifiedRoles) {
+		int count = 0;
+		for (NamedEntityWithRoles entity : identifiedRoles) {
+			for (Role role : entity.getRoles()) {
+				if (!role.getRole().equals("None")) {
+					count += 1;
+					break;
+				}
+			}
+		}
+		return count;
+	}
 }
