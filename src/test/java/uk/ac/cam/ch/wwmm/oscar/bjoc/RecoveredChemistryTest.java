@@ -35,4 +35,21 @@ public class RecoveredChemistryTest {
 		Assert.assertEquals(5, chemistry.getPrepPhraseCount());
 	}
 
+	@Test
+	public void testGetNamedEntities() {
+		RecoveredChemistry chemistry = new RecoveredChemistry("1");
+		Assert.assertNotNull(chemistry.getNamedEntities());
+	}
+
+	@Test
+	public void testGetRoles() {
+		RecoveredChemistry chemistry = new RecoveredChemistry("1");
+		Assert.assertNotNull(chemistry.getRoles());
+	}
+
+	@Test
+	public void testGetResolvedNamedEntities() {
+		RecoveredChemistry chemistry = new RecoveredChemistry("1");
+		Assert.assertNotNull(chemistry.getResolvedNamedEntities());
+	}
 }
