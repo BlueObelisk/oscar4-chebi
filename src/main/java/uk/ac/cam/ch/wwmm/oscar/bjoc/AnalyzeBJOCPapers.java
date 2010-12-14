@@ -21,6 +21,7 @@ public class AnalyzeBJOCPapers {
 		List<String> blacklist = new ArrayList<String>() {{
 			add("2956469"); // hangs
 			add("2869786"); // hangs
+			add("2874414"); // too large
 		}};
 
 		BufferedReader reader = new BufferedReader(
