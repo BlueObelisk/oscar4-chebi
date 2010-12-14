@@ -1,6 +1,7 @@
 package uk.ac.cam.ch.wwmm.oscar.bjoc;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -28,10 +29,20 @@ public class AnalyzeBJOCPapers {
 			)
 		);
 		RecoveredChemistryOutputStream out = new RecoveredChemistryOutputStream(
-			new FileOutputStream("/home/egonw/bjoc.html")
+			new FileOutputStream(
+				new File(
+					System.getProperty("user.home"),
+					"bjoc.html"
+				)
+			)
 		);
 		RolesOutputStream roles = new RolesOutputStream(
-			new FileOutputStream("/home/egonw/roles.html")
+			new FileOutputStream(
+				new File(
+					System.getProperty("user.home"),
+					"roles.html"
+				)
+			)
 		);
 
 		Oscar oscar = new Oscar();
