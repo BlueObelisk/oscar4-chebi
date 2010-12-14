@@ -19,12 +19,14 @@ public class RecoveredChemistry {
 	private int sentenceCount;
 	private int prepPhraseCount;
 	private int dissolvePhraseCount;
+	private int sectionCounter;
 
 	public RecoveredChemistry(String pmcid) {
 		this.pmcid = pmcid;
 		this.sentenceCount = 0;
 		this.prepPhraseCount = 0;
 		this.dissolvePhraseCount = 0;
+		this.sectionCounter = 0;
 	}
 
 	public void addNamedEntities(List<NamedEntity> entities) {
@@ -86,5 +88,13 @@ public class RecoveredChemistry {
 
 	public int getDissolvePhraseCount() {
 		return dissolvePhraseCount;
+	}
+
+	public void newSection() {
+		this.sectionCounter++;
+	}
+
+	public int getSectionCount() {
+		return this.sectionCounter;
 	}
 }
