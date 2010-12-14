@@ -11,7 +11,6 @@ import uk.ac.cam.ch.wwmm.chemicaltagger.roles.NamedEntityWithRoles;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.ParsedDocumentCreator;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.Role;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.RoleIdentifier;
-import uk.ac.cam.ch.wwmm.chemicaltagger.roles.RoleIdentifierTest;
 import uk.ac.cam.ch.wwmm.oscar.Oscar;
 import uk.ac.cam.ch.wwmm.oscar.document.NamedEntity;
 
@@ -48,12 +47,13 @@ public class ProcessPaperTest {
 		RecoveredChemistry chemistry = new RecoveredChemistry("1");
 		ProcessPaper paperProcessor = new ProcessPaper("1", new Oscar(),
 				new ParsedDocumentCreator(), new RoleIdentifier());
-		String sentence = "Figure 1 Concentration-dependent 1H NMR spectra of R-3 in chloroform ( CDCl3 )";
+		String sentence = "100 ) for the racemization of R-3 ( 1 mM ) in the presence of 1 equivalent of DBU in octane and THF";
 		paperProcessor.processText(chemistry, sentence);
 		Collection<NamedEntityWithRoles> identifiedRoles = chemistry.getRoles();
 		int solventCount = getSolventCount(identifiedRoles);
 		printOutRoles(identifiedRoles);
-		Assert.assertEquals("Solvent Count", 1, solventCount);
+		Assert.assertEquals("Solvent Count", 2, solventCount);
+		
 	}
 	private void printOutRoles(Collection<NamedEntityWithRoles> identifiedRoles) {
 		
