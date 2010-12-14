@@ -1,7 +1,6 @@
 package uk.ac.cam.ch.wwmm.oscar.bjoc.io;
 
 import java.io.ByteArrayOutputStream;
-import java.io.StringReader;
 
 import junit.framework.Assert;
 import nu.xom.Builder;
