@@ -69,13 +69,17 @@ public class ProcessPaper {
 		} catch (Exception e) {
 			// ignore for now
 		}
-		
-		chemistry.newSection();
-		Document parsedDoc = docCreator.runChemicalTagger(text);
-		chemistry.addRoles(roleIdentifier.getRoles(parsedDoc));
-		chemistry.setSentenceCount(ParsedDocumentStatistics.getSentenceCount(parsedDoc));
-		chemistry.setPrepPhraseCount(ParsedDocumentStatistics.getPrepPhraseCount(parsedDoc));
-		chemistry.setDissolvePhraseCount(ParsedDocumentStatistics.getDissolvePhraseCount(parsedDoc));
+
+		try {
+			chemistry.newSection();
+			Document parsedDoc = docCreator.runChemicalTagger(text);
+			chemistry.addRoles(roleIdentifier.getRoles(parsedDoc));
+			chemistry.setSentenceCount(ParsedDocumentStatistics.getSentenceCount(parsedDoc));
+			chemistry.setPrepPhraseCount(ParsedDocumentStatistics.getPrepPhraseCount(parsedDoc));
+			chemistry.setDissolvePhraseCount(ParsedDocumentStatistics.getDissolvePhraseCount(parsedDoc));
+		} catch (Throwable crash) {
+			chemistry.addCrash(text, crash);
+		}
 	}
 
 	public String streamAsString(InputStream stream) throws IOException {

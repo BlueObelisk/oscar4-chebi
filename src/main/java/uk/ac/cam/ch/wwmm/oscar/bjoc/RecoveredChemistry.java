@@ -21,6 +21,8 @@ public class RecoveredChemistry {
 	private int dissolvePhraseCount;
 	private int sectionCounter;
 
+	private Map<String,Throwable> crashes;
+
 	public RecoveredChemistry(String pmcid) {
 		this.pmcid = pmcid;
 		this.sentenceCount = 0;
@@ -97,4 +99,16 @@ public class RecoveredChemistry {
 	public int getSectionCount() {
 		return this.sectionCounter;
 	}
+
+	public Map<String,Throwable> getCrashes() {
+		if (this.crashes == null) return Collections.emptyMap();
+		return Collections.unmodifiableMap(this.crashes);
+	}
+
+	public void addCrash(String text, Throwable crash) {
+		if (this.crashes == null)
+			this.crashes = new HashMap<String,Throwable>();
+		this.crashes.put(text, crash);
+	}
+
 }

@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.NamedEntityWithRoles;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.Role;
@@ -87,6 +88,13 @@ public class RolesOutputStream {
 		out.println("Number of preparation phrases: " + chemistry.getPrepPhraseCount() + "<br />");
 		out.println("Number of dissolve phrases: " + chemistry.getDissolvePhraseCount() + "<br />");
 		out.println("</p>");
+		Map<String,Throwable> crashes = chemistry.getCrashes();
+		for (String text : crashes.keySet()) {
+			out.println("<p>");
+			out.println("<b>" + crashes.get(text) + "</b><br />");
+			out.println(text);
+			out.println("</p>");
+		}
 
 		out.println("</div>");
 		out.flush();
