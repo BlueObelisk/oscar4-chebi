@@ -16,7 +16,6 @@ public class RolesOutputStreamTest {
 		RolesOutputStream chemOut = new RolesOutputStream(out);
 		chemOut.close();
 		String results = new String(out.toByteArray());
-		System.out.println(results);
 		Builder parser = new Builder();
 		Document doc = parser.build(results, "http://www.example.org/");
 		Assert.assertNotNull(doc);
