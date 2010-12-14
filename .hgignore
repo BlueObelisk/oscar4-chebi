@@ -1,3 +1,6 @@
 .settings/
 src/main/resources/bjoc/
 target/
+src/main/resources/bjoc.zip
+src/main/resources/errs.txt
+
