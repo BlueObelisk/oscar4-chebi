@@ -32,6 +32,7 @@ public class RolesOutputStream {
 		out.println("      xmlns:dc=\"http://purl.org/dc/terms/\"");
 		out.println("      xmlns:foaf=\"http://xmlns.com/foaf/0.1/\"");
 		out.println("      xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"");
+		out.println("      xmlns:obo=\"http://purl.obolibrary.org/obo#\"");
 		out.println("      xmlns:cheminf=\"http://semanticscience.org/resource/\" xml:lang=\"en\">");
 		out.println("<head>");
 		out.println("  <title>Results</title>");
@@ -65,21 +66,20 @@ public class RolesOutputStream {
 		builder.append("<tbody rel=\"oscar:lists\">").append("\n");
 		Collection<NamedEntityWithRoles> roles = chemistry.getRoles();
 		int roleCount = 0;
-		int entityCount = 0;
 		for (NamedEntityWithRoles compound : roles) {
 			List<Role> roleList = compound.getRoles();
 			for (Role chemicalRole : roleList) {
 				if (!("None".equals(chemicalRole.getRole()))) {
 					roleCount++;
 					builder.append(
-							" <tr resource=\"#mol" + pmcid + "_" + entityCount + "\">"
+							" <tr resource=\"#mol" + pmcid + "_" + roleCount + "\">"
 						).append("\n");
 					builder.append(
 						"<td><span property=\"rdfs:label\">" + compound.getNamedEntity() + "</span>" +
 						"  <a rel=\"rdfs:subClassOf\" href=\"http://semanticscience.org/resource/CHEMINF_000000\" />" +
 						"</td>").append("\n"
 					);
-					builder.append("<td>" + chemicalRole.getRole() + "</td>").append("\n");
+					builder.append("<td>" + wrapRole(chemicalRole.getRole()) + "</td>").append("\n");
 					builder.append("<td>" + chemicalRole.getSentence() + "</td>").append("\n");
 					builder.append("</tr>").append("\n");
 				}
@@ -108,6 +108,13 @@ public class RolesOutputStream {
 
 		out.println("</div>");
 		out.flush();
+	}
+
+	private String wrapRole(String role) {
+		if ("Solvent".equals(role)) {
+			role = "<div rel=\"obo:has_role\"><span resource=\"chebi:46787\">" + role + "</span></div>";
+		}
+		return role;
 	}
 
 	public void close() throws IOException {
