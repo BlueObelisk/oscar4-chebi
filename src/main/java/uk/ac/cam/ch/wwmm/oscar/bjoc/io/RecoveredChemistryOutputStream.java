@@ -55,7 +55,7 @@ public class RecoveredChemistryOutputStream {
 		// output chemical entities
 		tableCounter++;
 		StringBuilder builder = new StringBuilder();
-		builder.append("<table resource=\"#" + chemistry.getPmcid()
+		builder.append("<table resource=\"#" + pmcid
 				+ "\" id=\"table" + tableCounter
 				+ "\" class=\"tablesorter\">").append("\n");
 		builder.append("<thead>").append("\n");
@@ -72,10 +72,12 @@ public class RecoveredChemistryOutputStream {
 				if (resolvedEntities.containsKey(entity)
 						|| entity.getConfidence() > 0.5) {
 					builder.append(
-						" <tr resource=\"#mol" + pmcid + "_" + entityCount + "\"" +
-						" typeof=\"cheminf:CHEMINF_000000\">"
+						" <tr resource=\"#mol" + pmcid + "_" + entityCount + "\">"
 					).append("\n");
-					builder.append("  <td property=\"rdfs:label\">" + entity.getSurface() + "</td>").append("\n");
+					builder.append(
+						"  <td><span property=\"rdfs:label\">" + entity.getSurface() + "</span>" +
+						"  <a rel=\"rdfs:subClassOf\" href=\"http://semanticscience.org/resource/CHEMINF_000000\" />" +
+						"</td>").append("\n");
 					builder.append("  <td>" + round(entity.getConfidence())
 							+ "</td>").append("\n");
 					if (resolvedEntities.containsKey(entity)) {
