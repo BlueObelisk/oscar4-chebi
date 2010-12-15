@@ -31,6 +31,7 @@ public class RolesOutputStream {
 		out.println("      xmlns:oscar=\"http://oscar3-chem.sf.net/ontology/\"");
 		out.println("      xmlns:dc=\"http://purl.org/dc/terms/\"");
 		out.println("      xmlns:foaf=\"http://xmlns.com/foaf/0.1/\"");
+		out.println("      xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\"");
 		out.println("      xmlns:cheminf=\"http://semanticscience.org/resource/\" xml:lang=\"en\">");
 		out.println("<head>");
 		out.println("  <title>Results</title>");
@@ -44,31 +45,40 @@ public class RolesOutputStream {
 	}
 
 	public void write(RecoveredChemistry chemistry) {
-		out.println("<div><p resource=\"#" + chemistry.getPmcid()
+		String pmcid = chemistry.getPmcid();
+		out.println("<div><p resource=\"#" + pmcid
 				+ "\" typeof=\"bibo:Article\">Paper: <a rel=\"foaf:homepage\" "
 				+ "property=\"dc:identifier\" "
 				+ "href=\"http://www.ncbi.nlm.nih.gov/sites/ppmc/articles/"
-				+ "PMC" + chemistry.getPmcid() + "\">PCM"
-				+ chemistry.getPmcid() + "</a></p>");
+				+ "PMC" + pmcid + "\">PCM"
+				+ pmcid + "</a></p>");
 
 		// output chemical entities
 		tableCounter++;
 		StringBuilder builder = new StringBuilder();
-		builder.append("<table rel=\"oscar:lists\" id=\"table" + tableCounter
+		builder.append("<table resource=\"#" + pmcid
+				+ "\" id=\"table" + tableCounter
 				+ "\" class=\"tablesorter\">").append("\n");
 		builder.append("<thead>").append("\n");
 		builder.append("<tr><th>Compound</th><th>Role</th><th>Sentence</th></tr>").append("\n");
 		builder.append("</thead>").append("\n");
-		builder.append("<tbody>").append("\n");
+		builder.append("<tbody rel=\"oscar:lists\">").append("\n");
 		Collection<NamedEntityWithRoles> roles = chemistry.getRoles();
 		int roleCount = 0;
+		int entityCount = 0;
 		for (NamedEntityWithRoles compound : roles) {
 			List<Role> roleList = compound.getRoles();
 			for (Role chemicalRole : roleList) {
 				if (!("None".equals(chemicalRole.getRole()))) {
 					roleCount++;
-					builder.append("<tr>").append("\n");
-					builder.append("<td>" + compound.getNamedEntity() + "</td>").append("\n");
+					builder.append(
+							" <tr resource=\"#mol" + pmcid + "_" + entityCount + "\">"
+						).append("\n");
+					builder.append(
+						"<td><span property=\"rdfs:label\">" + compound.getNamedEntity() + "</span>" +
+						"  <a rel=\"rdfs:subClassOf\" href=\"http://semanticscience.org/resource/CHEMINF_000000\" />" +
+						"</td>").append("\n"
+					);
 					builder.append("<td>" + chemicalRole.getRole() + "</td>").append("\n");
 					builder.append("<td>" + chemicalRole.getSentence() + "</td>").append("\n");
 					builder.append("</tr>").append("\n");
@@ -86,7 +96,7 @@ public class RolesOutputStream {
 		out.println("<p>");
 		out.println("Number of sentences: " + chemistry.getSentenceCount() + "<br />");
 		out.println("Number of preparation phrases: " + chemistry.getPrepPhraseCount() + "<br />");
-		out.println("Number of dissolve phrases: " + chemistry.getDissolvePhraseCount() + "<br />");
+//		out.println("Number of dissolve phrases: " + chemistry.getDissolvePhraseCount() + "<br />");
 		out.println("</p>");
 		Map<String,Throwable> crashes = chemistry.getCrashes();
 		for (String text : crashes.keySet()) {
