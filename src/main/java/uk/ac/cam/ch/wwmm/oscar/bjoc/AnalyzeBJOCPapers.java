@@ -22,6 +22,7 @@ public class AnalyzeBJOCPapers {
 			add("2956469"); // hangs
 			add("2869786"); // hangs
 			add("2874414"); // too large
+			add("2511025"); // hangs
 		}};
 
 		BufferedReader reader = new BufferedReader(
