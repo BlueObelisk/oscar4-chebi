@@ -53,6 +53,17 @@
     </dependencies>
 
     <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/web</directory>
+                <targetPath>../output</targetPath>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -127,47 +138,5 @@
             </plugin>
         </plugins>
     </reporting>
-
-
-    <profiles>
-        <profile>
-            <id>hudson-web-deploy</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                    </resource>
-                    <resource>
-                        <directory>src/main/web</directory>
-                        <targetPath>../output</targetPath>
-                    </resource>
-                </resources>
-
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.2</version>
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>rsync</executable>
-                                    <arguments>
-                                        <argument>-a</argument>
-                                        <argument>${WORKSPACE}/target/output/*</argument>
-                                        <argument>hudson@apidoc.ch.private.cam.ac.uk:/var/www/oscar-chebi/</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
