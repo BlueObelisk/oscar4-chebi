@@ -1,56 +1,56 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>wwmm</groupId>
-    <artifactId>wwmm-parent</artifactId>
-    <version>1</version>
-  </parent>
+    <parent>
+        <groupId>wwmm</groupId>
+        <artifactId>wwmm-parent</artifactId>
+        <version>1</version>
+    </parent>
 
-  <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-  <artifactId>oscar4-chebi</artifactId>
-  <version>4.0-SNAPSHOT</version>
-  <name>oscar4-chebi</name>
+    <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+    <artifactId>oscar4-chebi</artifactId>
+    <version>4.0-SNAPSHOT</version>
+    <name>oscar4-chebi</name>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-  <repositories>
-    <repository>
-      <id>ucc-repo</id>
-      <name>UCC Repository</name>
-      <url>https://maven.ch.cam.ac.uk/m2repo</url>
-    </repository>
-  </repositories>
+    <repositories>
+        <repository>
+            <id>ucc-repo</id>
+            <name>UCC Repository</name>
+            <url>https://maven.ch.cam.ac.uk/m2repo</url>
+        </repository>
+    </repositories>
 
-  <dependencies>
-  	<dependency>
-  		<groupId>chemicalTagger</groupId>
-  		<artifactId>chemicalTagger</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>net.htmlparser.jericho</groupId>
-  		<artifactId>jericho-html</artifactId>
-  		<version>3.1</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
-  		<artifactId>oscar4-api</artifactId>
-  		<version>4.0-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<version>4.8.2</version>
-  	</dependency>
+    <dependencies>
         <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.13</version>
+            <groupId>chemicalTagger</groupId>
+            <artifactId>chemicalTagger</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>net.htmlparser.jericho</groupId>
+            <artifactId>jericho-html</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.cam.ch.wwmm.oscar</groupId>
+            <artifactId>oscar4-api</artifactId>
+            <version>4.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.13</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
@@ -127,5 +127,47 @@
             </plugin>
         </plugins>
     </reporting>
+
+
+    <profiles>
+        <profile>
+            <id>hudson-web-deploy</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/web</directory>
+                        <targetPath>../output</targetPath>
+                    </resource>
+                </resources>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>rsync</executable>
+                                    <arguments>
+                                        <argument>-a</argument>
+                                        <argument>${WORKSPACE}/target/output/*</argument>
+                                        <argument>hudson@apidoc.ch.private.cam.ac.uk:/var/www/oscar-chebi/</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
