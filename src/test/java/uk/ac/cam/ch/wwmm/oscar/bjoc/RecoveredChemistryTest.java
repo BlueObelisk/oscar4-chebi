@@ -1,7 +1,12 @@
 package uk.ac.cam.ch.wwmm.oscar.bjoc;
 
+import java.util.ArrayList;
+
 import org.junit.Assert;
 import org.junit.Test;
+
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.NamedEntityWithRoles;
+import uk.ac.cam.ch.wwmm.chemicaltagger.roles.Role;
 
 public class RecoveredChemistryTest {
 
@@ -45,6 +50,20 @@ public class RecoveredChemistryTest {
 	public void testGetRoles() {
 		RecoveredChemistry chemistry = new RecoveredChemistry("1");
 		Assert.assertNotNull(chemistry.getRoles());
+	}
+
+	@SuppressWarnings("serial")
+	@Test
+	public void testAddRoles() {
+		RecoveredChemistry chemistry = new RecoveredChemistry("1");
+		Assert.assertNotNull(chemistry.getRoles());
+		Assert.assertEquals(0, chemistry.getRoles().size());
+		chemistry.addRoles(new ArrayList<NamedEntityWithRoles>() {{
+			NamedEntityWithRoles entity = new NamedEntityWithRoles("benzene");
+			entity.addRole(new Role("Solvent", "Benzene is a solvent."));
+			add(entity);
+		}});
+		Assert.assertEquals(1, chemistry.getRoles().size());
 	}
 
 	@Test
