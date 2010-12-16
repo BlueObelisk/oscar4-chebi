@@ -27,14 +27,16 @@ public class AnalyzeSomeBJOCPapersTest {
 			add("2956567");
 		}};
 
+		File outputDir = new File("target", "output");
+		if (!outputDir.exists()) outputDir.mkdir();
 		RecoveredChemistryOutputStream out = new RecoveredChemistryOutputStream(
 			new FileOutputStream(
-				new File("target", "bjoc.html")
+				new File(outputDir, "bjoc.html")
 			)
 		);
 		RolesOutputStream roles = new RolesOutputStream(
 			new FileOutputStream(
-					new File("target", "roles.html")
+				new File(outputDir, "roles.html")
 			)
 		);
 
