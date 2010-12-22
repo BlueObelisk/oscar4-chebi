@@ -59,7 +59,7 @@ public class RecoveredChemistryOutputStream {
 				+ "\" id=\"table" + tableCounter
 				+ "\" class=\"tablesorter\">").append("\n");
 		builder.append("<thead>").append("\n");
-		builder.append("<tr><th>Compound</th><th>Confidence</th><th>InChI</th></tr>").append("\n");
+		builder.append("<tr><th>Compound</th><th>Type</th><th>Confidence</th><th>InChI</th></tr>").append("\n");
 		builder.append("</thead>").append("\n");
 		builder.append("<tbody rel=\"oscar:lists\">").append("\n");
 		List<String> alreadyDone = new ArrayList<String>();
@@ -78,6 +78,9 @@ public class RecoveredChemistryOutputStream {
 						"  <td><span property=\"rdfs:label\">" + entity.getSurface() + "</span>" +
 						"  <a rel=\"rdfs:subClassOf\" href=\"http://semanticscience.org/resource/CHEMINF_000000\" />" +
 						"</td>").append("\n");
+					builder.append(
+							"  <td><span property=\"oscar:namedEntityType\">" + entity.getType() + "</span>" +
+							"</td>").append("\n");
 					builder.append("  <td>" + round(entity.getConfidence())
 							+ "</td>").append("\n");
 					if (resolvedEntities.containsKey(entity)) {
