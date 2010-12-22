@@ -108,6 +108,20 @@ public class RecoveredChemistryOutputStream {
 			out.println(builder.toString());
 		}
 
+		// output sentence stats
+		out.println("<p>");
+		out.println("Number of sentences: " + chemistry.getSentenceCount() + "<br />");
+		out.println("Number of preparation phrases: " + chemistry.getPrepPhraseCount() + "<br />");
+//		out.println("Number of dissolve phrases: " + chemistry.getDissolvePhraseCount() + "<br />");
+		out.println("</p>");
+		Map<String,Throwable> crashes = chemistry.getCrashes();
+		for (String text : crashes.keySet()) {
+			out.println("<p>");
+			out.println("<b>" + crashes.get(text) + "</b><br />");
+			out.println(text);
+			out.println("</p>");
+		}
+
 		out.println("</div>");
 		out.flush();
 	}
