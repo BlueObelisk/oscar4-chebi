@@ -14,6 +14,15 @@ import uk.ac.cam.ch.wwmm.oscar.bjoc.RecoveredChemistry;
 public class RecoveredChemistryOutputStreamTest {
 
 	@Test
+	public void testConstructor() throws Exception {
+		RecoveredChemistryOutputStream chemOut = new RecoveredChemistryOutputStream(
+			new ByteArrayOutputStream()
+		);
+		Assert.assertNotNull(chemOut);
+		chemOut.close();
+	}
+
+	@Test
 	public void testWellformedness_Wrapper() throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		RecoveredChemistryOutputStream chemOut = new RecoveredChemistryOutputStream(out);
