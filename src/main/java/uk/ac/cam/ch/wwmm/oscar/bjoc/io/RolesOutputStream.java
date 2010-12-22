@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.NamedEntityWithRoles;
 import uk.ac.cam.ch.wwmm.chemicaltagger.roles.Role;
@@ -14,8 +13,6 @@ import uk.ac.cam.ch.wwmm.oscar.bjoc.RecoveredChemistry;
 public class RolesOutputStream {
 
 	private PrintStream out;
-
-	private int tableCounter = 0;
 
 	public RolesOutputStream(OutputStream stream) {
 		if (out instanceof PrintStream) {
@@ -42,28 +39,21 @@ public class RolesOutputStream {
 		out.println("</head>");
 		out.println("<body>");
 
-		tableCounter = 0;
+		StringBuilder builder = new StringBuilder();
+		builder.append("<table id=\"table0"
+				+ "\" class=\"tablesorter\">").append("\n");
+		builder.append("<thead>").append("\n");
+		builder.append("<tr><th>Compound</th><th>Role</th><th>Paper</th><th>Sentence</th></tr>").append("\n");
+		builder.append("</thead>").append("\n");
+		builder.append("<tbody rel=\"oscar:lists\">").append("\n");
+		out.println(builder.toString());
 	}
 
 	public void write(RecoveredChemistry chemistry) {
 		String pmcid = chemistry.getPmcid();
-		out.println("<div><p resource=\"#" + pmcid
-				+ "\" typeof=\"bibo:Article\">Paper: <a rel=\"foaf:homepage\" "
-				+ "property=\"dc:identifier\" "
-				+ "href=\"http://www.ncbi.nlm.nih.gov/sites/ppmc/articles/"
-				+ "PMC" + pmcid + "\">PCM"
-				+ pmcid + "</a></p>");
-
+		
 		// output chemical entities
-		tableCounter++;
 		StringBuilder builder = new StringBuilder();
-		builder.append("<table resource=\"#" + pmcid
-				+ "\" id=\"table" + tableCounter
-				+ "\" class=\"tablesorter\">").append("\n");
-		builder.append("<thead>").append("\n");
-		builder.append("<tr><th>Compound</th><th>Role</th><th>Sentence</th></tr>").append("\n");
-		builder.append("</thead>").append("\n");
-		builder.append("<tbody rel=\"oscar:lists\">").append("\n");
 		Collection<NamedEntityWithRoles> roles = chemistry.getRoles();
 		int roleCount = 0;
 		for (NamedEntityWithRoles compound : roles) {
@@ -72,41 +62,27 @@ public class RolesOutputStream {
 				if (!("None".equals(chemicalRole.getRole()))) {
 					roleCount++;
 					builder.append(
-							" <tr resource=\"#mol" + pmcid + "_" + roleCount + "\">"
-						).append("\n");
+						" <tr resource=\"#mol" + pmcid + "_" + roleCount + "\">"
+					).append("\n");
 					builder.append(
 						"<td><span property=\"rdfs:label\">" + compound.getNamedEntity() + "</span>" +
 						"  <a rel=\"rdfs:subClassOf\" href=\"http://semanticscience.org/resource/CHEMINF_000000\" />" +
 						"</td>").append("\n"
 					);
 					builder.append("<td>" + wrapRole(chemicalRole.getRole()) + "</td>").append("\n");
+					builder.append("<td><a href=\"http://www.ncbi.nlm.nih.gov/sites/ppmc/articles/"
+							+ "PMC" + pmcid + "\">PCM"
+							+ pmcid + "</a></td>");
 					builder.append("<td>" + chemicalRole.getSentence() + "</td>").append("\n");
 					builder.append("</tr>").append("\n");
 				}
 			}
 		}
-		builder.append("</tbody>").append("\n");
-		builder.append("</table>").append("\n");
 		if (roleCount > 0) {
 			// only print tables with content
 			out.println(builder.toString());
 		}
 
-		// output sentence stats
-		out.println("<p>");
-		out.println("Number of sentences: " + chemistry.getSentenceCount() + "<br />");
-		out.println("Number of preparation phrases: " + chemistry.getPrepPhraseCount() + "<br />");
-//		out.println("Number of dissolve phrases: " + chemistry.getDissolvePhraseCount() + "<br />");
-		out.println("</p>");
-		Map<String,Throwable> crashes = chemistry.getCrashes();
-		for (String text : crashes.keySet()) {
-			out.println("<p>");
-			out.println("<b>" + crashes.get(text) + "</b><br />");
-			out.println(text);
-			out.println("</p>");
-		}
-
-		out.println("</div>");
 		out.flush();
 	}
 
@@ -118,12 +94,12 @@ public class RolesOutputStream {
 	}
 
 	public void close() throws IOException {
+		out.println("</tbody>");
+		out.println("</table>");
 		out.println("  <script type=\"text/javascript\" id=\"js\">"
 				+ "   $(document).ready(function() {"
 				+ "	// call the tablesorter plugin");
-		for (int i = 1; i <= tableCounter; i++) {
-			out.println("	$(\"#table" + i + "\").tablesorter();");
-		}
+		out.println("	$(\"#table0\").tablesorter();");
 		out.println("}); </script>");
 		out.println("</body>");
 		out.println("</html>");
