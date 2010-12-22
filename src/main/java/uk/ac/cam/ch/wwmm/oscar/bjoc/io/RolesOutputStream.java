@@ -70,7 +70,10 @@ public class RolesOutputStream {
 						"</td>").append("\n"
 					);
 					builder.append("<td>" + wrapRole(chemicalRole.getRole()) + "</td>").append("\n");
-					builder.append("<td><a href=\"http://www.ncbi.nlm.nih.gov/sites/ppmc/articles/"
+					builder.append("<td rel=\"oscar:foundIn\">" +
+							"<a resource=\"#"+ pmcid + "\" typeof=\"bibo:Article\" rel=\"foaf:homepage\" "
+							+ "property=\"dc:identifier\" "
+							+ "href=\"http://www.ncbi.nlm.nih.gov/sites/ppmc/articles/"
 							+ "PMC" + pmcid + "\">PCM"
 							+ pmcid + "</a></td>");
 					builder.append("<td>" + chemicalRole.getSentence() + "</td>").append("\n");
