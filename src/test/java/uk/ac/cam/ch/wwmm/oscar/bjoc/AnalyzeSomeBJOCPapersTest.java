@@ -52,6 +52,15 @@ public class AnalyzeSomeBJOCPapersTest {
 			out.write(chemistry);
 			roles.write(chemistry);
 		};
+		String validButton =
+			"<p about=\"\" resource=\"http://www.w3.org/TR/rdfa-syntax\"" +
+			"     rel=\"dc:conformsTo\" xmlns:dc=\"http://purl.org/dc/terms/\">" +
+			"    <a href=\"http://validator.w3.org/check?uri=referer\"><img" +
+			"        src=\"http://www.w3.org/Icons/valid-xhtml-rdfa\"" +
+			"        alt=\"Valid XHTML + RDFa\" height=\"31\" width=\"88\" /></a>" +
+			"  </p>";
+		roles.write(validButton);
+		out.write(validButton);
 		roles.close();
 		out.close();
 	}
