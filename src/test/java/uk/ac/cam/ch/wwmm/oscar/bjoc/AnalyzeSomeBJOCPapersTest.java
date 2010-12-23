@@ -59,10 +59,8 @@ public class AnalyzeSomeBJOCPapersTest {
 			"        src=\"http://www.w3.org/Icons/valid-xhtml-rdfa\"" +
 			"        alt=\"Valid XHTML + RDFa\" height=\"31\" width=\"88\" /></a>" +
 			"  </p>";
-		out.write(validButton);
-		roles.write(validButton.replace("bjoc.html", "roles.html"));
-		roles.close();
-		out.close();
+		roles.close(validButton.replace("bjoc.html", "roles.html"));
+		out.close(validButton);
 	}
 	
 }
