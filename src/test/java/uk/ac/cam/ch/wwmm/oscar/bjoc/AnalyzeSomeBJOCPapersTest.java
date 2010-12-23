@@ -55,7 +55,7 @@ public class AnalyzeSomeBJOCPapersTest {
 		String validButton =
 			"<p about=\"\" resource=\"http://www.w3.org/TR/rdfa-syntax\"" +
 			"     rel=\"dc:conformsTo\" xmlns:dc=\"http://purl.org/dc/terms/\">" +
-			"    <a href=\"http://validator.w3.org/check?uri=referer\"><img" +
+			"    <a href=\"http://validator.w3.org/check?uri=https%3A%2F%2Fhudson.ch.cam.ac.uk%2Fjob%2Foscar4-chebi%2Fws%2Ftarget%2Foutput%2Fbjoc.html&charset=%28detect+automatically%29&doctype=Inline&group=0\"><img" +
 			"        src=\"http://www.w3.org/Icons/valid-xhtml-rdfa\"" +
 			"        alt=\"Valid XHTML + RDFa\" height=\"31\" width=\"88\" /></a>" +
 			"  </p>";
