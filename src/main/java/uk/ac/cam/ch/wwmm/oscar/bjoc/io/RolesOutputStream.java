@@ -107,8 +107,13 @@ public class RolesOutputStream {
 	}
 
 	public void close() throws IOException {
+		close("");
+	}
+
+	public void close(String randomHTMLContent) throws IOException {
 		out.println("</tbody>");
 		out.println("</table>");
+		out.println(randomHTMLContent);
 		out.println("  <script type=\"text/javascript\" id=\"js\">"
 				+ "   $(document).ready(function() {"
 				+ "	// call the tablesorter plugin");
