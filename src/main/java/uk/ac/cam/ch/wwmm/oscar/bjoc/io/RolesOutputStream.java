@@ -49,6 +49,16 @@ public class RolesOutputStream {
 		out.println(builder.toString());
 	}
 
+	/**
+	 * Method to write random HTML content. This method can be used, for example,
+	 * to add a custom header or footer.
+	 *
+	 * @param randomHTMLContent
+	 */
+	public void write(String randomHTMLContent) {
+		out.println(randomHTMLContent);
+	}
+	
 	public void write(RecoveredChemistry chemistry) {
 		String pmcid = chemistry.getPmcid();
 		
