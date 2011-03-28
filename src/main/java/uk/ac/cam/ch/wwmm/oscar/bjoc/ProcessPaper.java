@@ -63,7 +63,7 @@ public class ProcessPaper {
 
 	protected void processText(RecoveredChemistry chemistry, String text) {
 		try {
-			List<NamedEntity> entities = oscar.getNamedEntities(text);
+			List<NamedEntity> entities = oscar.findNamedEntities(text);
 			chemistry.addNamedEntities(entities);
 			chemistry.addResolvedNamedEntities(oscar.resolveNamedEntities(entities));
 		} catch (Exception e) {

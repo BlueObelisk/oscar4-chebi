@@ -56,7 +56,7 @@ public class RecoveredChemistryOutputStreamTest {
 		RecoveredChemistryOutputStream chemOut = new RecoveredChemistryOutputStream(out);
 		RecoveredChemistry chemistry = new RecoveredChemistry("1");
 		Oscar oscar = new Oscar();
-		chemistry.addNamedEntities(oscar.getNamedEntities(
+		chemistry.addNamedEntities(oscar.findNamedEntities(
 			"Benzene was mixed with toluene."
 		));
 		chemOut.write(chemistry);
